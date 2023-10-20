@@ -1,0 +1,33 @@
+name: Continuous Integration & Delivery
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - '**'
+jobs:
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+        
+  verify:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+    needs: [install]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Run Linter
+        run: npm run lint
+      - name: Run Prettier
+        run: npm run prettier
+      - name: Run Tests
+        run: npm run test
