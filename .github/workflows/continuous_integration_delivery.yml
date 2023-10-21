@@ -1,11 +1,10 @@
 name: Continuous Integration & Delivery
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - '**'
+  schedule:
+    - cron: '0 0 * * *'
 jobs:
   verify:
     name: Validate Code Quality
