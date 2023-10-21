@@ -39,6 +39,7 @@ jobs:
     name: Deploy Project
     needs: [build]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
