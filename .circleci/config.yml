@@ -1,0 +1,49 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+jobs:
+  verify:
+    docker:
+      - image: cimg/node:21.0
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+      - run: npm run lint
+      - run: npm run prettier
+      - run: npm run test
+  
+  build:
+    docker:
+      - image: cimg/node:21.0
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+      - run: npm run build
+
+  deploy:
+    docker:
+      - image: cimg/node:21.0
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+      - run: npm run build
+      - run: npm run deploy
+
+workflows:
+  verify-workflow:
+    jobs:
+      - verify
+      - build:
+          requires:
+            - verify
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
