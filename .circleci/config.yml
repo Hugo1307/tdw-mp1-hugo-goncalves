@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  verify:
+    docker:
+      - image: cimg/node:21.0
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run lint
+      - run: npm run prettier
+      - run: npm run test
+
+workflows:
+  verify-workflow:
+    jobs:
+      - verify
