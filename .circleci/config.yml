@@ -32,10 +32,10 @@ jobs:
       - node/install-packages:
           cache-path: ~/project/node_modules
       - run: npm run build
-      - run: npm run deploy
+      - run: npx netlify-cli deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
 
 workflows:
-  verify-workflow:
+  main-workflow:
     jobs:
       - verify
       - build:
@@ -46,4 +46,4 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: main
